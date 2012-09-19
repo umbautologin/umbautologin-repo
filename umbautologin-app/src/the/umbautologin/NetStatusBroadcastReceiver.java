@@ -73,7 +73,7 @@ public class NetStatusBroadcastReceiver extends BroadcastReceiver
                     {
                         createNotification(context.getString(R.string.notify_message_success));
                     }
-                    h.setMessage("Logged on ~ Give $1 to Joseph Paul Cohen?");
+                    h.setMessage("Logged in ~ Donate to Joseph Paul Cohen?");
                 } else
                 {
                     if(prefs.getBoolean(Constants.PREF_KEY_NOTIFY_WHEN_ALREADY_LOGGED_IN, false))
@@ -95,45 +95,46 @@ public class NetStatusBroadcastReceiver extends BroadcastReceiver
             DBAccesser db = new DBAccesser(context);
             db.addHistoryItem(h);
         } 
-        else if(Constants.STARBUCKS_SSID.equals(ssid))
-        {
-            SharedPreferences prefs = context.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE);
-            Log.d(TAG, "Starbucks SSDID detected. SSID=" + ssid);
-            Starbucks s = new Starbucks();
-            HistoryItem h = new HistoryItem();
-            h.setDate(new Date());
-            try
-            {
-                boolean status = s.login(getTestURL(context, settings));
-                h.setSuccess(true);
-                if(status)
-                {
-                    if(prefs.getBoolean(Constants.PREF_KEY_NOTIFY_WHEN_SUCCESS, true))
-                    {
-                        createNotification(context.getString(R.string.notify_message_success));
-                    }
-                    h.setMessage("Logged in");
-                } else
-                {
-                    if(prefs.getBoolean(Constants.PREF_KEY_NOTIFY_WHEN_ALREADY_LOGGED_IN, false))
-                    {
-                        createNotification(context.getString(R.string.notify_message_already_logged));
-                    }
-                    h.setMessage("Already logged in");
-                }
-            } catch(Exception e)
-            {
-                if(prefs.getBoolean(Constants.PREF_KEY_NOTIFY_WHEN_ERROR, true))
-                {
-                    createNotification(context.getString(R.string.notify_message_error));
-                }
-                Log.e(TAG, "Login failed", e);
-                h.setSuccess(false);
-                h.setMessage("Login failed: " + e.getMessage());
-            }
-            DBAccesser db = new DBAccesser(context);
-            db.addHistoryItem(h);
-        } else
+//        else if(Constants.STARBUCKS_SSID.equals(ssid))
+//        {
+//            SharedPreferences prefs = context.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE);
+//            Log.d(TAG, "Starbucks SSDID detected. SSID=" + ssid);
+//            Starbucks s = new Starbucks();
+//            HistoryItem h = new HistoryItem();
+//            h.setDate(new Date());
+//            try
+//            {
+//                boolean status = s.login(getTestURL(context, settings));
+//                h.setSuccess(true);
+//                if(status)
+//                {
+//                    if(prefs.getBoolean(Constants.PREF_KEY_NOTIFY_WHEN_SUCCESS, true))
+//                    {
+//                        createNotification(context.getString(R.string.notify_message_success));
+//                    }
+//                    h.setMessage("Logged in");
+//                } else
+//                {
+//                    if(prefs.getBoolean(Constants.PREF_KEY_NOTIFY_WHEN_ALREADY_LOGGED_IN, false))
+//                    {
+//                        createNotification(context.getString(R.string.notify_message_already_logged));
+//                    }
+//                    h.setMessage("Already logged in");
+//                }
+//            } catch(Exception e)
+//            {
+//                if(prefs.getBoolean(Constants.PREF_KEY_NOTIFY_WHEN_ERROR, true))
+//                {
+//                    createNotification(context.getString(R.string.notify_message_error));
+//                }
+//                Log.e(TAG, "Login failed", e);
+//                h.setSuccess(false);
+//                h.setMessage("Login failed: " + e.getMessage());
+//            }
+//            DBAccesser db = new DBAccesser(context);
+//            db.addHistoryItem(h);
+//        } 
+        else
         {
             Log.d(TAG, "Unknown SSID " + ssid);
         }

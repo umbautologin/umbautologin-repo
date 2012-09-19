@@ -4,11 +4,11 @@
     <string name="app_name">umbautologin</string>
     <string name="title">UMASS Boston WiFi Auto Login - Joseph Paul Cohen - THIS WAS NOT MADE BY UMB - IT WAS MADE BY A STUDENT</string>
     <string name="history">Recent history:</string>
-    <string name="nohist">No recent connection attemps.</string>
+    <string name="nohist">No recent connection attemps. This app will only do things when you connect to the UMB Wifi and if you are not already logged in</string>
     <string name="clear_history">Clear History</string>
     <string name="settings">Settings</string>
     <string name="notify_prefs_title">Notify me when:</string>
-    <string name="notify_prefs_success">success</string>
+    <string name="notify_prefs_success">Success</string>
     <string name="notify_prefs_error">Error occurred</string>
     <string name="notify_prefs_already_logged">Already logged in</string>
     <string name="save">Save</string>

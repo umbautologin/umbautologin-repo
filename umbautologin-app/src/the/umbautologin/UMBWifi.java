@@ -27,6 +27,8 @@ public class UMBWifi
 {
     private static final String TAG = "umbAutoLogin";
 
+    private static int timeoutms = 4000;
+    
     public UMBWifi()
     {
     }
@@ -56,6 +58,7 @@ public class UMBWifi
 //        conn.setDoOutput(true);
         
         Socket s = new Socket(testURL.getHost(), 80);
+        s.setSoTimeout(timeoutms);
 
         BufferedWriter os = new BufferedWriter(new OutputStreamWriter(s.getOutputStream()));
         
@@ -130,6 +133,7 @@ public class UMBWifi
     		URL redirectUrl = new URL(redirectUrlStr);
             Log.d(TAG, "Downloading UMB login page [" + redirectUrl + "]...");
             HttpsURLConnection conn = (HttpsURLConnection) redirectUrl.openConnection();
+            conn.setReadTimeout(timeoutms);
             conn.setDoInput(true);
             conn.setDoOutput(false);
             conn.setRequestMethod("GET");
@@ -175,7 +179,7 @@ public class UMBWifi
             
             
             Socket s2 = sc.getSocketFactory().createSocket(formInfo.actionUrl.getHost(), 443);
-
+            s2.setSoTimeout(timeoutms);
             BufferedWriter sendlogin = new BufferedWriter(new OutputStreamWriter(s2.getOutputStream()));
             
             sendlogin.write("POST /authUser.php HTTP/1.1\n");
@@ -248,6 +252,7 @@ public class UMBWifi
             
          // try to connect to the Internet again to see if it worked
             HttpURLConnection con = (HttpURLConnection) testURL.openConnection();
+            con.setReadTimeout(timeoutms);
             con.setDoInput(true);
             con.setDoOutput(false);
             con.setRequestMethod("GET");
@@ -255,7 +260,7 @@ public class UMBWifi
             
             if(responseCode == HttpURLConnection.HTTP_OK || responseCode == 302)
             {
-                Log.d(TAG, "SUCCESS: You are signed into the UMB campus network ~ Give $1 to Joseph Paul Cohen?");
+                Log.d(TAG, "SUCCESS: You are signed into the UMB campus network ~ Donate to Joseph Paul Cohen?");
                 //throw new Exception("SUCCESS: You are signed into the UMB campus network ~ Give $1 to Joseph Paul Cohen?");
                 return(true);
             } else
