@@ -18,6 +18,7 @@
     <string name="notify_message_success">Logged on, Thanks Joseph Paul Cohen!</string>
     <string name="notify_message_error">Error</string>
     <string name="notify_message_already_logged">Already logged in</string>
+    <string name="notify_umbguest_error">UMB-Guest is the wrong network to connect to</string>
     <string name="urllabel">URL to check</string>
     <string name="defaulturl">http://www.umb.edu/</string>
     <string name="usernamelabel">UMB email</string>

@@ -3,7 +3,7 @@ package the.umbautologin;
 
 public interface Constants
 {
-    final int    HIST_LEN                               = 10;
+    final int    HIST_LEN                               = 30;
 
     final String PREFS_NAME                             = "umbautologin";
     final String PREF_KEY_ACTIVE                        = "active";
@@ -21,5 +21,6 @@ public interface Constants
     final String PREF_KEY_USERNAME                      = "UMB_USERNAME";
     final String PREF_KEY_PASSWORD                      = "UMB_PASSWORD";
     final String UMB_SSID                               = "UMB-Student";  
+    final String UMBGUEST_SSID                          = "UMB-Guest";  
     
 }

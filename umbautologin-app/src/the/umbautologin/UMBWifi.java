@@ -44,11 +44,13 @@ public class UMBWifi
     public boolean login(String test_url, String uName, String uPwd) throws Exception
     {
     	
+    	Log.d(TAG, "In UMBWifi Login API");
+    	
     	String currentStep = "";
     	
     	try{
     	
-        URL testURL = new URL(test_url);
+        final URL testURL = new URL(test_url);
         
         
     	
@@ -64,6 +66,7 @@ public class UMBWifi
         Socket s = new Socket(testURL.getHost(), 80);
         s.setSoTimeout(timeoutms);
 
+        Log.d(TAG, "Getting OUT for new Socket");
         BufferedWriter os = new BufferedWriter(new OutputStreamWriter(s.getOutputStream()));
         
         os.write("GET / HTTP/1.1\n");
@@ -75,6 +78,7 @@ public class UMBWifi
 
         currentStep = "Reading results of test";
         
+        Log.d(TAG, "Getting IN for new Socket");
         BufferedReader is = new BufferedReader(new InputStreamReader(s.getInputStream()));
         
         // get the Location header, which contains the redirect URL

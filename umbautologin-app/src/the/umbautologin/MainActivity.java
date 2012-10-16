@@ -27,7 +27,7 @@ import android.widget.RelativeLayout.LayoutParams;
 
 public class MainActivity extends Activity
 {
-    private static final String TAG = "SbAutoLogin";
+    private static final String TAG = "umbAutoLogin";
     private boolean update = true;
     private Object monitor = new Object();
     private boolean needRetry = false;

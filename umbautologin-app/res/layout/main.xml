@@ -1,13 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
               android:layout_width="fill_parent"
-              android:layout_height="fill_parent">
-    <TextView android:text="@string/title" android:id="@+id/textView1" android:textSize="20dp" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
-    <TextView android:text="@string/desc" android:id="@+id/textView3"  android:textSize="15dp" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
-    
-    <ToggleButton android:text="ToggleButton" android:id="@+id/active" android:layout_width="wrap_content" android:layout_height="wrap_content"></ToggleButton>
-    <TextView android:text="@string/history" android:id="@+id/textView2" android:textStyle="bold" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
-    <TableLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/histTable">
-    </TableLayout>
-</LinearLayout>
+              android:layout_height="wrap_content"
+              android:paddingLeft="0dp"
+              android:paddingRight="0dp"
+              android:orientation="vertical">
+              
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1" >
+
+		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		              android:orientation="vertical"
+		              android:layout_width="fill_parent"
+		              android:layout_height="fill_parent">
+		    <TextView android:text="@string/title" android:id="@+id/textView1" android:textSize="20dp" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+		    <TextView android:text="@string/desc" android:id="@+id/textView3"  android:textSize="15dp" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+		    
+		    <ToggleButton android:text="ToggleButton" android:id="@+id/active" android:layout_width="wrap_content" android:layout_height="wrap_content"></ToggleButton>
+		    <TextView android:text="@string/history" android:id="@+id/textView2" android:textStyle="bold" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+		    <TableLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/histTable">
+		    </TableLayout>
+		</LinearLayout>
+		
+	</ScrollView>
+</LinearLayout>		
+		
+		
