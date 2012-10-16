@@ -1,8 +1,6 @@
 
 package the.umbautologin;
 
-import static org.junit.Assert.assertTrue;
-
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;

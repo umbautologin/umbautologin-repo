@@ -25,14 +25,14 @@ public class NetStatusBroadcastReceiver extends BroadcastReceiver
     private Context             context;
 
     @Override
-    public void onReceive(Context context, Intent intent)
+    public void onReceive(final Context context, final Intent intent)
     {
         this.context = context;
 
         final String action = intent.getAction();
         Log.d(TAG, "Broadcast received. Action=" + action);
 
-        SharedPreferences settings = context.getSharedPreferences(Constants.PREFS_NAME, 0);
+        final SharedPreferences settings = context.getSharedPreferences(Constants.PREFS_NAME, 0);
         if(!settings.getBoolean(Constants.PREF_KEY_ACTIVE, true))
         {
             Log.i(TAG, "Disabled. Ignoring broadcast.");
@@ -54,46 +54,59 @@ public class NetStatusBroadcastReceiver extends BroadcastReceiver
         Log.d(TAG, "SSID=" + ssid);
         if(Constants.UMB_SSID.equals(ssid))
         {
-            SharedPreferences prefs = context.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE);
+            final SharedPreferences prefs = context.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE);
             Log.d(TAG, "UMB SSDID detected. SSID=" + ssid);
-            UMBWifi s = new UMBWifi();
-            HistoryItem h = new HistoryItem();
+            final UMBWifi s = new UMBWifi();
+            final HistoryItem h = new HistoryItem();
             h.setDate(new Date());
-            try
-            {
-            	String testURL = getTestURL(context, settings);
-            	String uName = getuName(context, settings);
-            	String uPwd = getuPwd(context, settings);
-            	
-                boolean status = s.login(testURL, uName, uPwd);
-                h.setSuccess(true);
-                if(status)
-                {
-                    if(prefs.getBoolean(Constants.PREF_KEY_NOTIFY_WHEN_SUCCESS, true))
-                    {
-                        createNotification(context.getString(R.string.notify_message_success));
-                    }
-                    h.setMessage("Logged in ~ Donate to Joseph Paul Cohen?");
-                } else
-                {
-                    if(prefs.getBoolean(Constants.PREF_KEY_NOTIFY_WHEN_ALREADY_LOGGED_IN, false))
-                    {
-                        createNotification(context.getString(R.string.notify_message_already_logged));
-                    }
-                    h.setMessage("Already logged in");
-                }
-            } catch(Exception e)
-            {
-                if(prefs.getBoolean(Constants.PREF_KEY_NOTIFY_WHEN_ERROR, true))
-                {
-                    createNotification(context.getString(R.string.notify_message_error));
-                }
-                Log.e(TAG, "Login failed", e);
-                h.setSuccess(false);
-                h.setMessage("Login failed: " + e.getMessage());
-            }
-            DBAccesser db = new DBAccesser(context);
-            db.addHistoryItem(h);
+            
+            new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					
+	            try
+	            {
+	            	String testURL = getTestURL(context, settings);
+	            	String uName = getuName(context, settings);
+	            	String uPwd = getuPwd(context, settings);
+	            	
+	            	
+	                final boolean status = s.login(testURL, uName, uPwd);
+	                
+	                h.setSuccess(true);
+	                if(status)
+	                {
+	                    if(prefs.getBoolean(Constants.PREF_KEY_NOTIFY_WHEN_SUCCESS, true))
+	                    {
+	                        createNotification(context.getString(R.string.notify_message_success));
+	                    }
+	                    h.setMessage("Logged in ~ Donate to Joseph Paul Cohen?");
+	                } else
+	                {
+	                    if(prefs.getBoolean(Constants.PREF_KEY_NOTIFY_WHEN_ALREADY_LOGGED_IN, false))
+	                    {
+	                        createNotification(context.getString(R.string.notify_message_already_logged));
+	                    }
+	                    h.setMessage("Already logged in");
+	                }
+	            } catch(Exception e)
+	            {
+	                if(prefs.getBoolean(Constants.PREF_KEY_NOTIFY_WHEN_ERROR, true))
+	                {
+	                    createNotification(context.getString(R.string.notify_message_error));
+	                }
+	                Log.e(TAG, "Login failed", e);
+	                h.setSuccess(false);
+	                h.setMessage("Login failed: " + e.getMessage());
+	            }
+	            DBAccesser db = new DBAccesser(context);
+	            db.addHistoryItem(h);
+	  
+				
+				}
+			});
+	            
         } 
 //        else if(Constants.STARBUCKS_SSID.equals(ssid))
 //        {

@@ -27,7 +27,9 @@ public class UMBWifi
 {
     private static final String TAG = "umbAutoLogin";
 
-    private static int timeoutms = 4000;
+    private static int timeoutms = 20000;
+    
+    
     
     public UMBWifi()
     {
@@ -41,7 +43,14 @@ public class UMBWifi
      */
     public boolean login(String test_url, String uName, String uPwd) throws Exception
     {
+    	
+    	String currentStep = "";
+    	
+    	try{
+    	
         URL testURL = new URL(test_url);
+        
+        
     	
         // disable the automatic following of redirects
         // a 3xx response can be used to determine whether or not the computer
@@ -50,12 +59,7 @@ public class UMBWifi
 
         // try to visit a website
         Log.d(TAG, "Attempting to visit [" + testURL + "]...");
-        
-        
-//        HttpURLConnection conn = (HttpURLConnection) testURL.openConnection();
-//        conn.setRequestMethod("GET");
-//        conn.setDoInput(true);
-//        conn.setDoOutput(true);
+        currentStep = "Testing connection";
         
         Socket s = new Socket(testURL.getHost(), 80);
         s.setSoTimeout(timeoutms);
@@ -69,6 +73,7 @@ public class UMBWifi
         os.flush();
         	
 
+        currentStep = "Reading results of test";
         
         BufferedReader is = new BufferedReader(new InputStreamReader(s.getInputStream()));
         
@@ -127,7 +132,7 @@ public class UMBWifi
     		
     		
     		
-    		
+    		currentStep = "Fetching login page";
     		
     		
     		URL redirectUrl = new URL(redirectUrlStr);
@@ -155,6 +160,7 @@ public class UMBWifi
             Log.d(TAG, "Parsing UMB login page...");
             HtmlForm formInfo = new HtmlForm(redirectUrl, html.toString());
 
+            currentStep = "Parsing login page";
             
             
             // prepare to submit the form
@@ -176,7 +182,7 @@ public class UMBWifi
             
             // send the request
             
-            
+            currentStep = "Sending credentials";
             
             Socket s2 = sc.getSocketFactory().createSocket(formInfo.actionUrl.getHost(), 443);
             s2.setSoTimeout(timeoutms);
@@ -197,6 +203,8 @@ public class UMBWifi
             BufferedReader islogin = new BufferedReader(new InputStreamReader(s2.getInputStream()));
             
 
+            currentStep = "Reading login response";
+      
             String response = "";
             while((toparse = islogin.readLine()) != null){
             	response += toparse;
@@ -216,39 +224,11 @@ public class UMBWifi
             	throw new Exception("Error: fail=0, Some internal error happened");
             
             
-//            Log.d(TAG, "SUCCESS: You are signed into the UMB campus network ~ Give $1 to Joseph Paul Cohen?");
-//            return(true);
             
 
 
-//            Log.d(TAG, "testing connection again");
-//            Socket s3 = new Socket(testURL.getHost(), 80);
-//
-//            os = new BufferedWriter(new OutputStreamWriter(s3.getOutputStream()));
-//            
-//            os.write("GET / HTTP/1.1\n");
-//            os.write("Host: google.com\n");
-//            os.write("User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6; rv:11.0) Gecko/20100101 Firefox/11.0\n");
-//            os.write("Accept: text/html\n\n\n");
-//            os.flush();
-//            	
-//
-//            
-//            is = new BufferedReader(new InputStreamReader(s3.getInputStream()));
-//            
-//            // get the Location header, which contains the redirect URL
-//
-//            response = "";
-//            while((toparse = is.readLine()) != null){
-//            	response += toparse;
-//            }
-//            
-//            if (response.contains("HTTP/1.1 200"))
-//        		responseCode = HttpURLConnection.HTTP_OK;
-//            
-//            Log.d(TAG, "response-check:" + response);
-//            
-//            
+            currentStep = "Testing your connection";
+            
             
          // try to connect to the Internet again to see if it worked
             HttpURLConnection con = (HttpURLConnection) testURL.openConnection();
@@ -260,8 +240,7 @@ public class UMBWifi
             
             if(responseCode == HttpURLConnection.HTTP_OK || responseCode == 302)
             {
-                Log.d(TAG, "SUCCESS: You are signed into the UMB campus network ~ Donate to Joseph Paul Cohen?");
-                //throw new Exception("SUCCESS: You are signed into the UMB campus network ~ Give $1 to Joseph Paul Cohen?");
+                Log.d(TAG, "SUCCESS: Logged into UMB campus network ~ Donate to Joseph Paul Cohen?");
                 return(true);
             } else
             {
@@ -277,6 +256,10 @@ public class UMBWifi
             Log.e(TAG, "Unknown error: HTTP status code " + responseCode);
             throw new Exception("Unknown error: HTTP status code " + responseCode);
         }
+    	}
+    	catch (Exception e){
+    		throw new Exception("Step: \"" + currentStep + "\" resulted in " + e.getMessage(), e);
+    	}
     }
 
 }
