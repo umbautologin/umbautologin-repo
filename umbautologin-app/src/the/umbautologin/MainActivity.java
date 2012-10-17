@@ -20,6 +20,7 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.text.format.DateUtils;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.*;
 import android.view.View.OnClickListener;
 import android.widget.*;
@@ -210,6 +211,7 @@ public class MainActivity extends Activity
                 row.addView(dateCell);
 
                 TextView msgCell = new TextView(this);
+                msgCell.setTextSize(10);
                 msgCell.setText(h.getMessage());
                 params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
                 params.addRule(RelativeLayout.RIGHT_OF, 1020 + i * 3);
