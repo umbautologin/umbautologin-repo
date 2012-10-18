@@ -131,21 +131,37 @@ public class UMBWifi
             String toparse = "";
             while((toparse = islogin.readLine()) != null){
             	response += toparse;
+            	
+                if (response.contains("HTTP/1.1 302")){
+                	// it worked
+                	 islogin.close();
+                     state.loginConnection.close();
+                     break;
+                }
+            	
+            	//fail=2 means wrong password
+                if (response.contains("fail=2")){
+                	state.currentStep = "";
+                	islogin.close();
+                    state.loginConnection.close();
+                	throw new Exception("Error: fail=2, Check your username and password");
+                }
+                
+                //fail=0 some other error
+                if (response.contains("fail=0")){
+                	state.currentStep = "";
+                	islogin.close();
+                    state.loginConnection.close();
+                	throw new Exception("Error: fail=0, Some internal error happened");
+                }
             }
             islogin.close();
             state.loginConnection.close();
-            
             Log.d(TAG, "response-login:" + response);
             
-            state.currentStep = "";
             
-            //fail=2 means wrong password
-            if (response.contains("fail=2"))
-            	throw new Exception("Error: fail=2, Check your username and password");
             
-            //fail=0 some other error
-            if (response.contains("fail=0"))
-            	throw new Exception("Error: fail=0, Some internal error happened");
+            
             
             
             
