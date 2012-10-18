@@ -30,7 +30,7 @@ public class UMBWifi
     private static final String TAG = "umbAutoLogin";
 
     private static final int timeoutms = 20000;
-    private static final int numTries = 3;
+    private static final int numTries = 6;
     
     
     public UMBWifi()
