@@ -81,7 +81,7 @@
 		    </EditText>
 		    
 		    
-		    
+		    <!-- 
 		    <TextView
 		        android:id="@+id/textView1"
 		        android:layout_width="wrap_content"
@@ -89,7 +89,7 @@
 		        android:text="@string/urllabel"
 		        android:textAppearance="?android:attr/textAppearanceLarge" />
 		
-		    <!--  <EditText
+		     <EditText
 		        android:id="@+id/prefs_url"
 		        android:layout_width="fill_parent"
 		        android:layout_height="wrap_content"
