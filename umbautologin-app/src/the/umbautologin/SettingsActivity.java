@@ -74,6 +74,13 @@ public class SettingsActivity extends Activity
                 }
             }
         });
+        
+        successChbx.setChecked(prefs.getBoolean(Constants.PREF_KEY_NOTIFY_WHEN_SUCCESS, true));
+        errorChbx.setChecked(prefs.getBoolean(Constants.PREF_KEY_NOTIFY_WHEN_ERROR, true));
+        loggedinChbx.setChecked(prefs.getBoolean(Constants.PREF_KEY_NOTIFY_WHEN_ALREADY_LOGGED_IN, false));
+        urlField.setText(prefs.getString(Constants.PREF_KEY_URL, getString(R.string.defaulturl)));
+        usernameField.setText(prefs.getString(Constants.PREF_KEY_USERNAME, getString(R.string.defaultusername)));
+        passwdField.setText(prefs.getString(Constants.PREF_KEY_PASSWORD, getString(R.string.defaultpasswd)));
     }
 
     private boolean checkURL(String s)
@@ -93,12 +100,7 @@ public class SettingsActivity extends Activity
     {
         super.onResume();
 
-        successChbx.setChecked(prefs.getBoolean(Constants.PREF_KEY_NOTIFY_WHEN_SUCCESS, true));
-        errorChbx.setChecked(prefs.getBoolean(Constants.PREF_KEY_NOTIFY_WHEN_ERROR, true));
-        loggedinChbx.setChecked(prefs.getBoolean(Constants.PREF_KEY_NOTIFY_WHEN_ALREADY_LOGGED_IN, false));
-        urlField.setText(prefs.getString(Constants.PREF_KEY_URL, getString(R.string.defaulturl)));
-        usernameField.setText(prefs.getString(Constants.PREF_KEY_USERNAME, getString(R.string.defaultusername)));
-        passwdField.setText(prefs.getString(Constants.PREF_KEY_PASSWORD, getString(R.string.defaultpasswd)));
+        
     }
 
 }
