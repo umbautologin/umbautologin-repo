@@ -75,6 +75,8 @@ public class NetStatusBroadcastReceiver extends BroadcastReceiver
 								.getString(R.string.notify_message_success));
 					}
 					h.setMessage("Logged in ~ Thanks Joseph Paul Cohen!");
+					DBAccesser db = new DBAccesser(context);
+		            db.addHistoryItem(h);
 				} else {
 
 					if (prefs.getBoolean(Constants.PREF_KEY_NOTIFY_WHEN_ALREADY_LOGGED_IN, false)) {
@@ -90,9 +92,10 @@ public class NetStatusBroadcastReceiver extends BroadcastReceiver
                 Log.e(TAG, "Login failed", e);
                 h.setSuccess(false);
                 h.setMessage("Login failed: " + e.getMessage());
+                DBAccesser db = new DBAccesser(context);
+                db.addHistoryItem(h);
             }
-            DBAccesser db = new DBAccesser(context);
-            db.addHistoryItem(h);
+            
   
         }else if (Constants.UMBGUEST_SSID.equals(ssid)){
         	

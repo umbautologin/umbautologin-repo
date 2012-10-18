@@ -61,9 +61,10 @@ public class UMBWifi
 	    	try{
 	    		state.currentStep = "Testing for redirect try: " + tries;
 	    		testAndGetRedirect(state);  
-	    	}catch(Exception e){
+	    	}catch(IOException e){
 	    		
-	    		Log.e(TAG, "Failed testAndGetRedirect");
+	    		Log.e(TAG, "Failed testAndGetRedirect: " + e.getMessage());
+	    		e.printStackTrace();
 	    	}
         }
        
@@ -213,22 +214,40 @@ public class UMBWifi
         Log.d(TAG, "Getting IN for new Socket");
         BufferedReader is = new BufferedReader(new InputStreamReader(s.getInputStream()));
         
-       
+        Log.d(TAG, "Reading IN for new Socket");
         String toparse;
         while((toparse = is.readLine()) != null){
 
-        	if (toparse.contains("HTTP/1.1 307"))
+        	if (toparse.contains("HTTP/1.1 307")){
         		state.responseCode = 307;
+        		
+        		// do we already have the location
+        		if (!state.redirectUrlStr.equals("")){
+        			is.close();
+        			return;
+        		}
+        	}
         	
-        	if (toparse.contains("HTTP/1.1 200"))
+        	if (toparse.contains("HTTP/1.1 200")){
         		state.responseCode = HttpURLConnection.HTTP_OK;
+        		is.close();
+        		return;
+        	}
         	
         	if (toparse.contains("Location:")){
         		state.redirectUrlStr = toparse.replace("Location:", "");
+        		
+        		// do we already have the response code
+        		if (state.responseCode != 0){
+        			is.close();
+        			return;
+        		}
         	}
         	
         	// thats all we care about
         }
+        
+        is.close();
     }
     
     String getHtmlOfLoginPage(LoginState state) throws IOException, NoSuchAlgorithmException, KeyManagementException{
