@@ -73,7 +73,7 @@ public class UMBWifi
         
         state.currentStep = "Reading response code";
         Log.d(TAG, "ResponseCode:" + state.responseCode);
-        if(true && state.responseCode == 307)
+        if(state.responseCode == 307)
         {
 
             String htmlOfLoginPage = getHtmlOfLoginPage(state);
