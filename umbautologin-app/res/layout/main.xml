@@ -15,11 +15,43 @@
 		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		              android:orientation="vertical"
 		              android:layout_width="fill_parent"
-		              android:layout_height="fill_parent">
-		    <TextView android:text="@string/title" android:id="@+id/textView1" android:textSize="20dp" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
-		    <TextView android:text="@string/desc" android:id="@+id/textView3"  android:textSize="15dp" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+		              android:layout_height="wrap_content">
+		              
 		    
-		    <ToggleButton android:text="ToggleButton" android:id="@+id/active" android:layout_width="wrap_content" android:layout_height="wrap_content"></ToggleButton>
+		    
+		    
+		    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		        android:orientation="horizontal"
+		        android:gravity="center"
+		        android:layout_width="fill_parent"
+		        android:layout_height="50sp">
+		    <ImageView android:src="@drawable/icon" android:contentDescription="Icon" android:layout_width="50sp" android:layout_height="50sp"/>
+		    <TextView android:text="@string/title" android:gravity="center" android:id="@+id/textView1" android:textSize="20dp" android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
+		    </LinearLayout>
+		    
+		    <TextView android:text="@string/desc" android:gravity="center" android:id="@+id/textView3"  android:textSize="15dp" android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
+
+		    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		        android:orientation="horizontal"
+		        android:gravity="center"
+		        android:layout_width="fill_parent"
+		        android:layout_height="50sp">
+		        
+		       <ToggleButton
+		        android:id="@+id/active"
+		        android:layout_width="wrap_content"
+		        android:layout_height="fill_parent" />
+
+		    <Button
+		        android:id="@+id/runManual"
+		        android:layout_width="wrap_content"
+		        android:layout_height="fill_parent"
+		        android:text="Run Login Manually" /> 
+		        
+		        
+		        
+		    </LinearLayout>
+		    
 		    <TextView android:text="@string/history" android:id="@+id/textView2" android:textStyle="bold"   android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
 		    <TableLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/histTable" android:textSize="10dp">
 		    </TableLayout>
