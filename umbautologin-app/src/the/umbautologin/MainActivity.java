@@ -78,6 +78,10 @@ public class MainActivity extends Activity
 
         setContentView(R.layout.main);
 
+        
+        getWindow().setBackgroundDrawableResource(R.drawable.bg);
+        
+        
         ToggleButton activeToggle = (ToggleButton) findViewById(R.id.active);
         SharedPreferences settings = getSharedPreferences(Constants.PREFS_NAME, 0);
         activeToggle.setChecked(settings.getBoolean(Constants.PREF_KEY_ACTIVE, true));
@@ -91,6 +95,19 @@ public class MainActivity extends Activity
             }
         });
 
+        
+        Button runManual = (Button) findViewById(R.id.runManual);
+        
+        runManual.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+				NetStatusBroadcastReceiver.runUMBLogin(v.getContext());
+				
+			}
+		});
+        
        // addTestData();
     }
 
