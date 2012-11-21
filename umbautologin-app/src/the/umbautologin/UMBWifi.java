@@ -30,7 +30,7 @@ public class UMBWifi
     private static final String TAG = "umbAutoLogin";
 
     private static final int timeoutms = 20000;
-    private static final int numTries = 6;
+    private static final int numTries = 7;
     
     
     public UMBWifi()
@@ -68,12 +68,14 @@ public class UMBWifi
 	    	}
         }
        
-       
+       if (state.responseCode == 0){
+    	   throw new Exception("Error: Wifi access point won't respond to us");
+       }
         
         
         state.currentStep = "Reading response code";
         Log.d(TAG, "ResponseCode:" + state.responseCode);
-        if(true && state.responseCode == 307)
+        if(state.responseCode == 307)
         {
 
             String htmlOfLoginPage = getHtmlOfLoginPage(state);
@@ -182,7 +184,11 @@ public class UMBWifi
             	
                 Log.d(TAG, "SUCCESS: Logged into UMB campus network ~ Donate to Joseph Paul Cohen?");
                 return(true);
-            } else {
+            } else if(state.responseCode == HttpURLConnection.HTTP_UNAVAILABLE){
+                	
+                    Log.d(TAG, "Fail: Sign in failed, Maybe your password is wrong.");
+                    throw new Exception("Fail: Sign in failed, Maybe your password is wrong.");
+            }else{
             	
                 Log.e(TAG, "Error: Sign in Failed HTTP status code "+ state.responseCode);
                 throw new Exception("Error: Sign in Failed HTTP status code "+ state.responseCode);
