@@ -50,62 +50,70 @@ public class NetStatusBroadcastReceiver extends BroadcastReceiver
 
         
         Log.d(TAG, "SSID=" + ssid);
-        if(Constants.UMB_SSID.equals(ssid)){
-        	
-            final SharedPreferences prefs = context.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE);
-            Log.d(TAG, "UMB SSID detected. SSID=" + ssid);
-            final HistoryItem h = new HistoryItem();
-			h.setDate(new Date());
-			
-            try{
-            	
-            	String testURL = getTestURL(context, settings);
-            	String uName = getuName(context, settings);
-            	String uPwd = getuPwd(context, settings);
-            	
-            	Log.d(TAG, "Calling login API for UMBWifi");
-            	final UMBWifi s = new UMBWifi();
-                final boolean status = s.login(testURL, uName, uPwd);
-                Log.d(TAG, "Login API for UMBWifi returned");
-                h.setSuccess(true);
-                
-				if (status) {
-					if (prefs.getBoolean(Constants.PREF_KEY_NOTIFY_WHEN_SUCCESS, true)) {
-						createNotification(context
-								.getString(R.string.notify_message_success));
-					}
-					h.setMessage("Logged in ~ Thanks Joseph Paul Cohen!");
-					DBAccesser db = new DBAccesser(context);
-		            db.addHistoryItem(h);
-				} else {
-
-					if (prefs.getBoolean(Constants.PREF_KEY_NOTIFY_WHEN_ALREADY_LOGGED_IN, false)) {
-						createNotification(context.getString(R.string.notify_message_already_logged));
-					}
-					h.setMessage("Already logged in");
-				}
-            } catch(Exception e){
-                if(prefs.getBoolean(Constants.PREF_KEY_NOTIFY_WHEN_ERROR, true)){
-                	
-                    createNotification(context.getString(R.string.notify_message_error));
-                }
-                Log.e(TAG, "Login failed", e);
-                h.setSuccess(false);
-                h.setMessage("Login failed: " + e.getMessage());
-                DBAccesser db = new DBAccesser(context);
-                db.addHistoryItem(h);
-            }
+        if(ssid.contains(Constants.UMB_SSID)){ //Constants.UMB_SSID.toUpperCase().equals(ssid.toUpperCase())){
+        	Log.d(TAG, "UMB SSID detected. SSID=" + ssid);
             
+        	runUMBLogin(context);
   
-        }else if (Constants.UMBGUEST_SSID.equals(ssid)){
+        }else if (ssid.contains(Constants.UMBGUEST_SSID)){
         	
-        	createNotification(context.getString(R.string.notify_umbguest_error));
+        	createNotification(context.getString(R.string.notify_umbguest_error), context);
         }else{
             Log.d(TAG, "Unknown SSID " + ssid);
         }
     }
 
-    private String getTestURL(Context context, SharedPreferences settings)
+    
+    public static void runUMBLogin(Context context){
+    	
+    	final SharedPreferences prefs = context.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE);
+    	final SharedPreferences settings = context.getSharedPreferences(Constants.PREFS_NAME, 0);
+    	
+        final HistoryItem h = new HistoryItem();
+		h.setDate(new Date());
+		
+        try{
+        	
+        	String testURL = getTestURL(context, settings);
+        	String uName = getuName(context, settings);
+        	String uPwd = getuPwd(context, settings);
+        	
+        	Log.d(TAG, "Calling login API for UMBWifi");
+        	final UMBWifi s = new UMBWifi();
+            final boolean status = s.login(testURL, uName, uPwd);
+            Log.d(TAG, "Login API for UMBWifi returned");
+            h.setSuccess(true);
+            
+			if (status) {
+				if (prefs.getBoolean(Constants.PREF_KEY_NOTIFY_WHEN_SUCCESS, true)) {
+					createNotification(context
+							.getString(R.string.notify_message_success), context);
+				}
+				h.setMessage("Logged in ~ Thanks Joseph Paul Cohen!");
+				DBAccesser db = new DBAccesser(context);
+	            db.addHistoryItem(h);
+			} else {
+
+				if (prefs.getBoolean(Constants.PREF_KEY_NOTIFY_WHEN_ALREADY_LOGGED_IN, false)) {
+					createNotification(context.getString(R.string.notify_message_already_logged), context);
+				}
+				h.setMessage("Already logged in");
+			}
+        } catch(Exception e){
+            if(prefs.getBoolean(Constants.PREF_KEY_NOTIFY_WHEN_ERROR, true)){
+            	
+                createNotification(context.getString(R.string.notify_message_error), context);
+            }
+            Log.e(TAG, "Login failed", e);
+            h.setSuccess(false);
+            h.setMessage("Login failed: " + e.getMessage());
+            DBAccesser db = new DBAccesser(context);
+            db.addHistoryItem(h);
+        }
+    	
+    }
+    
+    private static String getTestURL(Context context, SharedPreferences settings)
     {
         String default_url = context.getString(R.string.defaulturl);
         String s = settings.getString(Constants.PREF_KEY_URL, default_url);
@@ -122,7 +130,7 @@ public class NetStatusBroadcastReceiver extends BroadcastReceiver
         }
     }
     
-    private String getuName(Context context, SharedPreferences settings)
+    private static String getuName(Context context, SharedPreferences settings)
     {
         String default_uname = context.getString(R.string.defaultusername);
         String s = settings.getString(Constants.PREF_KEY_USERNAME, default_uname);
@@ -132,7 +140,7 @@ public class NetStatusBroadcastReceiver extends BroadcastReceiver
         return s;
     }
     
-    private String getuPwd(Context context, SharedPreferences settings)
+    private static String getuPwd(Context context, SharedPreferences settings)
     {
         String default_upwd = context.getString(R.string.defaultpasswd);
         String s = settings.getString(Constants.PREF_KEY_PASSWORD, default_upwd);
@@ -142,7 +150,7 @@ public class NetStatusBroadcastReceiver extends BroadcastReceiver
         return s;
     }
 
-    private void createNotification(String message)
+    private static void createNotification(String message, Context context)
     {
         NotificationManager notificationManager = (NotificationManager) context
                 .getSystemService(Context.NOTIFICATION_SERVICE);
