@@ -79,7 +79,7 @@ public class MainActivity extends Activity
         setContentView(R.layout.main);
 
         
-        getWindow().setBackgroundDrawableResource(R.drawable.bg);
+        //getWindow().setBackgroundDrawableResource(R.drawable.bg);
         
         
         ToggleButton activeToggle = (ToggleButton) findViewById(R.id.active);
