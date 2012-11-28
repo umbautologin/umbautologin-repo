@@ -19,6 +19,7 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.text.format.DateUtils;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.*;
@@ -78,6 +79,8 @@ public class MainActivity extends Activity
 
         setContentView(R.layout.main);
 
+        TextView t2 = (TextView) findViewById(R.id.link);
+        t2.setMovementMethod(LinkMovementMethod.getInstance());
         
         //getWindow().setBackgroundDrawableResource(R.drawable.bg);
         
