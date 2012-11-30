@@ -5,6 +5,7 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -110,6 +111,21 @@ public class MainActivity extends Activity
 				
 			}
 		});
+        
+        
+        final Context thisContext = this;
+        Button settingsBtn = (Button) findViewById(R.id.settings);
+        
+        settingsBtn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+				startActivity(new Intent(thisContext, SettingsActivity.class));
+				
+			}
+		});
+        
         
        // addTestData();
     }
