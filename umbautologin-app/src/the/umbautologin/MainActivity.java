@@ -83,6 +83,9 @@ public class MainActivity extends Activity
         TextView t2 = (TextView) findViewById(R.id.link);
         t2.setMovementMethod(LinkMovementMethod.getInstance());
         
+        TextView sl = (TextView) findViewById(R.id.supportlink);
+        sl.setMovementMethod(LinkMovementMethod.getInstance());
+        
         //getWindow().setBackgroundDrawableResource(R.drawable.bg);
         
         

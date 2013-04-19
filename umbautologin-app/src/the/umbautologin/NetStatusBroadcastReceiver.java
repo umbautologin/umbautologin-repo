@@ -10,6 +10,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.*;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.util.Log;
@@ -57,7 +58,7 @@ public class NetStatusBroadcastReceiver extends BroadcastReceiver
   
         }else if (ssid.contains(Constants.UMBGUEST_SSID)){
         	
-        	createNotification(context.getString(R.string.notify_umbguest_error), context);
+        	createNotification(context.getString(R.string.notify_umbguest_error), context, false);
         }else{
             Log.d(TAG, "Unknown SSID " + ssid);
         }
@@ -86,8 +87,7 @@ public class NetStatusBroadcastReceiver extends BroadcastReceiver
             
 			if (status) {
 				if (prefs.getBoolean(Constants.PREF_KEY_NOTIFY_WHEN_SUCCESS, true)) {
-					createNotification(context
-							.getString(R.string.notify_message_success), context);
+					createNotification(context.getString(R.string.notify_message_success), context, true);
 				}
 				h.setMessage("Logged in ~ Thanks Joseph Paul Cohen!");
 				DBAccesser db = new DBAccesser(context);
@@ -95,14 +95,14 @@ public class NetStatusBroadcastReceiver extends BroadcastReceiver
 			} else {
 
 				if (prefs.getBoolean(Constants.PREF_KEY_NOTIFY_WHEN_ALREADY_LOGGED_IN, false)) {
-					createNotification(context.getString(R.string.notify_message_already_logged), context);
+					createNotification(context.getString(R.string.notify_message_already_logged), context, true);
 				}
 				h.setMessage("Already logged in");
 			}
         } catch(Exception e){
             if(prefs.getBoolean(Constants.PREF_KEY_NOTIFY_WHEN_ERROR, true)){
             	
-                createNotification(context.getString(R.string.notify_message_error), context);
+                createNotification(context.getString(R.string.notify_message_error), context, false);
             }
             Log.e(TAG, "Login failed", e);
             h.setSuccess(false);
@@ -115,19 +115,7 @@ public class NetStatusBroadcastReceiver extends BroadcastReceiver
     
     private static String getTestURL(Context context, SharedPreferences settings)
     {
-        String default_url = context.getString(R.string.defaulturl);
-        String s = settings.getString(Constants.PREF_KEY_URL, default_url);
-        if(s == null || s.equals(default_url))
-            return s;
-        s = s.trim();
-        try
-        {
-            new URL(s);
-            return s;
-        } catch(MalformedURLException mex)
-        {
-            return default_url;
-        }
+        return context.getString(R.string.defaulturl);
     }
     
     private static String getuName(Context context, SharedPreferences settings)
@@ -150,18 +138,25 @@ public class NetStatusBroadcastReceiver extends BroadcastReceiver
         return s;
     }
 
-    private static void createNotification(String message, Context context)
+    private static void createNotification(String message, Context context, boolean success)
     {
         NotificationManager notificationManager = (NotificationManager) context
                 .getSystemService(Context.NOTIFICATION_SERVICE);
         Notification notification = new Notification(R.drawable.icon, context.getString(R.string.notify_title),
                 System.currentTimeMillis());
-        Intent notificationIntent = new Intent(context, MainActivity.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent,
+        //Intent notificationIntent = new Intent(context, MainActivity.class);
+        
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse("http://josephpcohen.com/give"));
+        
+        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, i,
                 PendingIntent.FLAG_CANCEL_CURRENT);
         notification.setLatestEventInfo(context, context.getString(R.string.notify_title), message, contentIntent);
         notification.flags = Notification.FLAG_AUTO_CANCEL;
         notificationManager.notify(0, notification);
     }
+    
+    
+    
 
 }

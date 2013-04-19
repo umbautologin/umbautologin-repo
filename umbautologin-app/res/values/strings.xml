@@ -4,6 +4,7 @@
     <string name="app_name">umbautologin</string>
     <string name="title">UMASS Boston WiFi Auto Login \nBy Joseph Paul Cohen 2012</string>
     <string name="link"><a href="https://play.google.com/store/apps/details?id=the.umbautologin">Rate and review on Google Play</a></string>
+    <string name="supportlink"><a href="http://josephpcohen.com/give">Support Joseph</a></string>    
     <string name="desc">THIS WAS NOT MADE BY UMB \nIT WAS MADE BY A STUDENT\nIf this doesn\'t work try to turn off and on your wireless. This app will only log you on when you have not logged on. You never need to open this app to log in. A notification will pop up when it logs you in.</string>
     <string name="history">Recent history:</string>
     <string name="nohist">No recent connection attemps. This app will only do things when you connect to the UMB Wifi and if you are not already logged in</string>
@@ -21,7 +22,7 @@
     <string name="notify_message_already_logged">Already logged in</string>
     <string name="notify_umbguest_error">UMB-Guest is the wrong network to connect to</string>
     <string name="urllabel">URL to check</string>
-    <string name="defaulturl">http://www.umb.edu/</string>
+    <string name="defaulturl">http://mit.edu/</string>
     <string name="usernamelabel">UMB email</string>
     <string name="defaultusername">first.last001@umb.edu</string>
     <string name="passwdlabel">UMB password</string>
